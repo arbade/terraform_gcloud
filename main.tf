@@ -168,3 +168,36 @@ resource "google_compute_instance" "sonar-store-instance" {
     }
   }
 }
+
+resource "google_compute_instance" "nexus-instance" {
+  name = "nexus-store"
+
+  ## for a setup having multiple instances of the same type, you can do
+  ## the following, there would be 2 instances of the same configuration
+  ## provisioned
+  # count        = 2
+  # name         = "${var.instance-name}-${count.index}"
+  machine_type = "${var.vm_type}"
+
+  zone = "${var.region_2}"
+
+
+
+  boot_disk {
+    initialize_params {
+    image = "${var.os}"
+    size  = 50
+    }
+  }
+
+  
+  hostname = "nexus.repository.org"
+  
+
+  network_interface {
+    # A default network is created for all GCP projects
+    network = "default"
+    access_config {
+    }
+  }
+}
